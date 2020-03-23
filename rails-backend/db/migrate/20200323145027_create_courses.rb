@@ -5,7 +5,7 @@ class CreateCourses < ActiveRecord::Migration[6.0]
       t.integer :goldtee
       t.integer :bluetee
       t.integer :whitetee
-
+      
       t.timestamps
     end
   end
