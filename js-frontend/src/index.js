@@ -4,6 +4,7 @@
 // calculates handicap based on 8 most recent scores
 document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("login").style.display = "none";
+    document.getElementById("signup").style.display = "none";
   });
 
 
