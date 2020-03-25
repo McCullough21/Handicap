@@ -3,11 +3,11 @@
 // gives option to add a new score /// which also gives selection of courses to choose from 
 // calculates handicap based on 8 most recent scores
 document.addEventListener("DOMContentLoaded", () => {
-    
+    document.getElementById("login").style.display = "none";
   });
 
 
-  
+
 
 //   function test() {
 //     let form = document.getElementById("create-task-form")
