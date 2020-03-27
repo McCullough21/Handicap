@@ -5,11 +5,21 @@
 document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("login").style.display = "none";
     document.getElementById("signup").style.display = "none";
+    loginForm()
+    signupForm()
   });
 
+  function loginForm() {
+    document.getElementById("loginbutton").addEventListener("click", function(e) {
+        document.getElementById("login").style.display = "block"
+    })
+  }
 
-
-
+  function signupForm() {
+    document.getElementById("signupbutton").addEventListener("click", function(e) {
+        document.getElementById("signup").style.display = "block"
+    })
+  }
 //   function test() {
 //     let form = document.getElementById("create-task-form")
 //     form.addEventListener("submit", function(event) {
