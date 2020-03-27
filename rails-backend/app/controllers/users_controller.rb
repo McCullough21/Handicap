@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
 
+
     def show
-        # Not sure if this is the right route to use
-        # recieve fetch with username to find user in db
+        user = User.find_by(id: params[:id])
+        render json: UserSerializer.new(user)
     end
 end

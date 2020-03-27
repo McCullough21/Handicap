@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_24_124232) do
+ActiveRecord::Schema.define(version: 2020_03_23_192107) do
 
   create_table "courses", force: :cascade do |t|
     t.string "name"
@@ -32,8 +32,12 @@ ActiveRecord::Schema.define(version: 2020_03_24_124232) do
     t.index ["user_id"], name: "index_scores_on_user_id"
   end
 
-# Could not dump table "users" because of following StandardError
-#   Unknown type 'password_digest' for column 'password'
+  create_table "users", force: :cascade do |t|
+    t.string "username"
+    t.string "password_digest"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   add_foreign_key "scores", "courses"
   add_foreign_key "scores", "users"
