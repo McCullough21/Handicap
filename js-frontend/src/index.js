@@ -6,9 +6,10 @@ const loginForm = document.getElementById("login")
 const signupForm = document.getElementById("signup")
 
 document.addEventListener("DOMContentLoaded", () => {
-    loginForm.style.display = "none";
-    signupForm.style.display = "none";
-    formDisplay()
+    find()
+    // loginForm.style.display = "none";
+    // signupForm.style.display = "none";
+    // formDisplay()
     
   });
 
@@ -27,6 +28,19 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   }
 
+//   class User {
+       function find() {
+        fetch("http://localhost:3000/users/1")
+        .then(resp => resp.json())
+        .then(json => showUser(json))
+      }
+      function showUser(json) {
+          let userName = document.createElement("h4")
+          userName.innerText = json.data.attributes.username
+            let p = document.getElementById("test")
+            p.appendChild(userName)
+      }
+    // }
   
 //   function test() {
 //     let form = document.getElementById("create-task-form")
