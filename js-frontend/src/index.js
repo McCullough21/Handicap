@@ -2,24 +2,32 @@
 // render html with user specific info
 // gives option to add a new score /// which also gives selection of courses to choose from 
 // calculates handicap based on 8 most recent scores
+const loginForm = document.getElementById("login")
+const signupForm = document.getElementById("signup")
+
 document.addEventListener("DOMContentLoaded", () => {
-    document.getElementById("login").style.display = "none";
-    document.getElementById("signup").style.display = "none";
-    loginForm()
-    signupForm()
+    loginForm.style.display = "none";
+    signupForm.style.display = "none";
+    formDisplay()
+    
   });
 
-  function loginForm() {
-    document.getElementById("loginbutton").addEventListener("click", function(e) {
-        document.getElementById("login").style.display = "block"
+  function formDisplay() {
+    let loginButton = document.getElementById("loginbutton")
+    loginButton.addEventListener("click", function(e) {
+    loginForm.style.display = "block"
+    loginButton.style.display = "none"
+    signupButton.style.display = "none"
+    })
+    let signupButton = document.getElementById("signupbutton")
+    signupButton.addEventListener("click", function(e) {
+    signupForm.style.display = "block"
+    loginButton.style.display = "none"
+    signupButton.style.display = "none"
     })
   }
 
-  function signupForm() {
-    document.getElementById("signupbutton").addEventListener("click", function(e) {
-        document.getElementById("signup").style.display = "block"
-    })
-  }
+  
 //   function test() {
 //     let form = document.getElementById("create-task-form")
 //     form.addEventListener("submit", function(event) {
