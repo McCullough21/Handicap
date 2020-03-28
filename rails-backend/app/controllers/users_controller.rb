@@ -1,8 +1,11 @@
 class UsersController < ApplicationController
 
-
-    def show
-        user = User.find_by(id: params[:id])
+    
+    def index
+         
+        user = User.find_by(username: params[:username])
+        raise params.inspect
         render json: UserSerializer.new(user)
+
     end
 end
