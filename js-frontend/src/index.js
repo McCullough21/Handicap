@@ -7,29 +7,38 @@ const signupForm = document.getElementById("signup")
 
 document.addEventListener("DOMContentLoaded", () => {
     find()
-    // loginForm.style.display = "none";
-    // signupForm.style.display = "none";
-    // formDisplay()
-    
+    hideForms()
+    formDisplay()
   });
+  function hideForms() {
+    loginForm.style.display = "none";
+    signupForm.style.display = "none";
+  }
+  function hideButtons() {
+    loginButton.style.display = "none"
+    signupButton.style.display = "none"
+  }
 
   function formDisplay() {
     let loginButton = document.getElementById("loginbutton")
     loginButton.addEventListener("click", function(e) {
     loginForm.style.display = "block"
-    loginButton.style.display = "none"
-    signupButton.style.display = "none"
+    hideButtons()
     })
     let signupButton = document.getElementById("signupbutton")
     signupButton.addEventListener("click", function(e) {
     signupForm.style.display = "block"
-    loginButton.style.display = "none"
-    signupButton.style.display = "none"
+    hideButtons()
     })
   }
 
 //   class User {
-       function find() {
+//         constructor(name) {
+            
+
+//         }
+
+      function find() {
         fetch("http://localhost:3000/users/1")
         .then(resp => resp.json())
         .then(json => showUser(json))
@@ -39,6 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
           userName.innerText = json.data.attributes.username
             let p = document.getElementById("test")
             p.appendChild(userName)
+            hideButtons()
       }
     // }
   
