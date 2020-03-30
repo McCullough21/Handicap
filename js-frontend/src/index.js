@@ -62,16 +62,11 @@ document.addEventListener("DOMContentLoaded", () => {
     event.preventDefault()
         let name = document.getElementById("name").value
         let password = document.getElementById("password").value
-        fetch("http://localhost:3000/users", {
-        method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                  "Accept": "application/json"
-                },
-                 body:JSON.stringify({"username": name})
-            })
-      })
-    }
+        fetch(`http://localhost:3000/users/${name}`)
+        .then(resp => resp.json())
+        .then(json => console.log(json))
+    })
+}
 
 
     // }
