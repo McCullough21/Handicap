@@ -5,9 +5,11 @@ class UserSerializer
   @user = user
  end
 
-  def serialized 
-      @user.to_json(:except => [:created_at, :updated_at]) 
+ 
+
+  def serialized_scores 
       @scores = @user.scores
-      @scores.to_json(:include => {:course => {:only => [:name]}})
+      @scores.to_json(:include => {:user => {:only => [:username]},
+      :course => {:only => [:name, :rating, :slope]}})
   end
 end
