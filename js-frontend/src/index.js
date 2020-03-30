@@ -36,13 +36,6 @@ document.addEventListener("DOMContentLoaded", () => {
     hideButtons()
     })
   }
-
-//   class User {
-//         constructor(name) {
-            
-
-//         }
-
       function find() {
         fetch("http://localhost:3000/users/1")
         .then(resp => resp.json())
@@ -64,8 +57,24 @@ document.addEventListener("DOMContentLoaded", () => {
         let password = document.getElementById("password").value
         fetch(`http://localhost:3000/users/${name}/${password}`)
         .then(resp => resp.json())
-        .then(json => console.log(json))
+        .then(json => populateScores(json))
     })
+}
+
+    function populateScores(info) {
+        let user = new User(info)
+        console.log(user.scores)
+    }
+
+    
+
+class User {
+    constructor(info) {
+        this._name = info[0].user.username
+        this.scores = info[0]
+    }
+
+     
 }
 
 
