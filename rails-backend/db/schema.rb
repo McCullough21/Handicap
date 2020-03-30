@@ -10,16 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_23_192107) do
+ActiveRecord::Schema.define(version: 2020_03_30_153324) do
 
   create_table "courses", force: :cascade do |t|
     t.string "name"
-    t.integer "goldtee"
-    t.integer "bluetee"
-    t.integer "whitetee"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "rating"
+    t.integer "slope"
   end
 
   create_table "scores", force: :cascade do |t|
