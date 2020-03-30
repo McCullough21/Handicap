@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
     event.preventDefault()
         let name = document.getElementById("name").value
         let password = document.getElementById("password").value
-        fetch(`http://localhost:3000/users/${name}`)
+        fetch(`http://localhost:3000/users/${name}/${password}`)
         .then(resp => resp.json())
         .then(json => console.log(json))
     })
