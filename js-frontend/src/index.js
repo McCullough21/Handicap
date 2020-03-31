@@ -57,18 +57,27 @@ document.addEventListener("DOMContentLoaded", () => {
         let password = document.getElementById("password").value
         fetch(`http://localhost:3000/users/${name}/${password}`)
         .then(resp => resp.json())
-        .then(json => populateScores(json))
+        .then(json => createUser(json))
     })
 }
 
-    function populateScores(info) {
+    function createUser(info) {
         let user = new User(info)
         info.forEach(score => {
             user.scores.unshift(score)
         })
-        console.log(user.allScores)
+        populateScores(user.allScores)
     }
-
+    function populateScores(scores) {
+        let scoreTable = document.getElementById("scores")
+        let x = scores.slice(0, 5)
+        x.forEach(score => {
+            
+            let postLine = document.createElement("h4")
+            postLine.innerText = `Score: ${score.total}  Course: ${score.course.name}`
+            scoreTable.appendChild(postLine)
+        })
+    }
     
 
 class User {
@@ -79,10 +88,7 @@ class User {
     get allScores() {
         return this.scores
     }
-    get handicap() {
-
-    }
-      
+    
 
      
 }
