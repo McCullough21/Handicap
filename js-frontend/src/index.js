@@ -7,9 +7,9 @@
 
 const loginForm = document.getElementById("login")
 const signupForm = document.getElementById("signup")
-let loginButton = document.getElementById("loginbutton")
-let signupButton = document.getElementById("signupbutton")
-
+const loginButton = document.getElementById("loginbutton")
+const signupButton = document.getElementById("signupbutton")
+const scoreTable = document.getElementById("scores")
 
 document.addEventListener("DOMContentLoaded", () => {
     hideForms()
@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   function hideForms() {
+      scoreTable.style.display = "none";
     loginForm.style.display = "none";
     signupForm.style.display = "none";
   }
@@ -62,6 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
 }
 
     function createUser(info) {
+        hideForms()
         let user = new User(info)
         info.forEach(score => {
             user.scores.unshift(score)
@@ -69,10 +71,10 @@ document.addEventListener("DOMContentLoaded", () => {
         populateScores(user.allScores)
     }
     function populateScores(scores) {
-        let scoreTable = document.getElementById("scores")
+        scoreTable.style.display = "block"
+        
         let x = scores.slice(0, 5)
         x.forEach(score => {
-            
             let postLine = document.createElement("h4")
             postLine.innerText = `Score: ${score.total}  Course: ${score.course.name}`
             scoreTable.appendChild(postLine)
