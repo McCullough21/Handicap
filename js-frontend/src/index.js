@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function populateScores(info) {
         let user = new User(info)
         info.forEach(score => {
-            user.scores.push(score)
+            user.scores.unshift(score)
         })
         console.log(user.allScores)
     }
@@ -79,7 +79,9 @@ class User {
     get allScores() {
         return this.scores
     }
-    
+    get handicap() {
+
+    }
       
 
      
