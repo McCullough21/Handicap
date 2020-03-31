@@ -63,7 +63,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function populateScores(info) {
         let user = new User(info)
-        console.log(user.scores)
+        info.forEach(score => {
+            user.scores.push(score)
+        })
+        console.log(user.allScores)
     }
 
     
@@ -71,8 +74,13 @@ document.addEventListener("DOMContentLoaded", () => {
 class User {
     constructor(info) {
         this._name = info[0].user.username
-        this.scores = info[0]
+        this.scores = []
     }
+    get allScores() {
+        return this.scores
+    }
+    
+      
 
      
 }

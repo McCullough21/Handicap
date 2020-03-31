@@ -1,11 +1,11 @@
 class UsersController < ApplicationController
 
-    # def index
-    #     user = User.find_by(id: params[:id])
+    def index
+        user = User.find_by(id: params[:id])
         
     
-    #     render json: UserSerializer.new(user).serialized_scores
-    # end
+        render json: UserSerializer.new(user).serialized_scores
+    end
 
     def show
         
