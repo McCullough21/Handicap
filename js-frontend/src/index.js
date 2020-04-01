@@ -79,16 +79,19 @@ document.addEventListener("DOMContentLoaded", () => {
             user.scores.unshift(score)
         })
         populateScores(user.allScores)
+        showHandicap(user.handicap)
     }
     function populateScores(scores) {
         showLabels()
-        
         let x = scores.slice(0, 5)
         x.forEach(score => {
             let postLine = document.createElement("h4")
             postLine.innerText = `Score: ${score.total}  Course: ${score.course.name}`
             scoreTable.appendChild(postLine)
         })
+    }
+    function showHandicap(cap) {
+        console.log(cap)
     }
     
 
@@ -99,6 +102,16 @@ class User {
     }
     get allScores() {
         return this.scores
+    }
+
+    get handicap() {
+        let differentials = []
+        this.scores.forEach(score => {
+        let dif = (score.total - score.course.rating) * 113 / score.course.slope
+        differentials.push(dif)
+        })
+        let cap = differentials.reduce((previous, current) => current += previous) / differentials.length
+        return cap.toFixed(1)
     }
     
 
