@@ -10,14 +10,24 @@ const signupForm = document.getElementById("signup")
 const loginButton = document.getElementById("loginbutton")
 const signupButton = document.getElementById("signupbutton")
 const scoreTable = document.getElementById("scores")
+const handicap = document.getElementById("handicap")
 
 document.addEventListener("DOMContentLoaded", () => {
     hideForms()
     formDisplay()
+    hideLabels()
   });
 
+  function hideLabels() {
+    handicap.style.display = "none";
+    scoreTable.style.display = "none";
+  }
+
+  function showLabels() {
+    handicap.style.display = "block";
+    scoreTable.style.display = "block"
+  }
   function hideForms() {
-      scoreTable.style.display = "none";
     loginForm.style.display = "none";
     signupForm.style.display = "none";
   }
@@ -71,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
         populateScores(user.allScores)
     }
     function populateScores(scores) {
-        scoreTable.style.display = "block"
+        showLabels()
         
         let x = scores.slice(0, 5)
         x.forEach(score => {
