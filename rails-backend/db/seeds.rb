@@ -7,8 +7,16 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 
+mike = User.create(username: :Michael, password: "hockey")
 
-Course.create(name: "Mayacoo Lakes Country Club", rating: 71.8, goldtee: 149, bluetee: 145, whitetee: 139)
-Course.create(name: "Mirasol", rating: 70.6, goldtee: 147, bluetee: 142, whitetee: 136)
+Course.create(name: "Mayacoo Lakes Country Club", rating: 71, slope: 149)
+Course.create(name: "Mirasol", rating: 70, slope: 146)
 
-User.create(username: :Michael, password: "hockey")
+mike.scores.create(total: 76, course_id: 1)
+mike.scores.create(total: 83, course_id: 2)
+mike.scores.create(total: 85, course_id: 2)
+mike.scores.create(total: 72, course_id: 1)
+mike.scores.create(total: 87, course_id: 2)
+mike.scores.create(total: 77, course_id: 1)
+mike.scores.create(total: 75, course_id: 1)
+mike.scores.create(total: 78, course_id: 2)
