@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     }
     function showHandicap(cap) {
-        console.log(cap)
+        handicap.innerText += `  ${cap}`
     }
     
 
