@@ -47,23 +47,18 @@ document.addEventListener("DOMContentLoaded", () => {
     hideButtons()
     })
   }
-      function find() {
-        fetch("http://localhost:3000/users/1")
-        .then(resp => resp.json())
-        .then(json => showUser(json))
-      }
-      function showUser(json) {
-          let userName = document.createElement("h4")
-          userName.innerText = json.data.attributes.username
-            let p = document.getElementById("test")
-            p.appendChild(userName)
-            
-      }
+   
+    function newUser() {
+        signupForm.addEventListener("submit", function(event) {
+            event.preventDefault()
+        let name = document.getElementById("name").value
+        let password = document.getElementById("password").value
+    })
+}
 
     function fetchUser() {
-    let form = document.getElementById("login")
-    form.addEventListener("submit", function(event) {
-    event.preventDefault()
+      loginForm.addEventListener("submit", function(event) {
+      event.preventDefault()
         let name = document.getElementById("name").value
         let password = document.getElementById("password").value
         fetch(`http://localhost:3000/users/${name}/${password}`)
