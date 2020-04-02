@@ -10,7 +10,7 @@ const signupForm = document.getElementById("signup")
 const loginButton = document.getElementById("loginbutton")
 const signupButton = document.getElementById("signupbutton")
 const scoreTable = document.getElementById("scores")
-const handicap = document.getElementById("handicap")
+const handicapDisplay = document.getElementById("handicap")
 
 document.addEventListener("DOMContentLoaded", () => {
     hideForms()
@@ -53,6 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
             event.preventDefault()
         let name = document.getElementById("name").value
         let password = document.getElementById("password").value
+        fetch()
     })
 }
 
@@ -74,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
             user.scores.unshift(score)
         })
         populateScores(user.allScores)
-        showHandicap(user.handicap)
+        showHandicap(user)
     }
     function populateScores(scores) {
         showLabels()
@@ -85,8 +86,8 @@ document.addEventListener("DOMContentLoaded", () => {
             scoreTable.appendChild(postLine)
         })
     }
-    function showHandicap(cap) {
-        handicap.innerText += `  ${cap}`
+    function showHandicap(user) {
+        handicapDisplay.innerText += `${user._name}'s Handicap:  ${user.handicap}`
     }
     
 
