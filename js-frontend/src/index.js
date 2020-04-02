@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
               "Content-Type": "application/json",
               "Accept": "application/json"
             },
-             body:JSON.stringify({"username": name}, {"password": password})
+             body:JSON.stringify({"username": name, "password": password})
              
         })
     })

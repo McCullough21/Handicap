@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
 
     def create
-        raise params.inspect
+        @user = User.create(username: params[:username], password: params[:password])
+
     end
 
     def show
