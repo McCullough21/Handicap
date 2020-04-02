@@ -45,15 +45,24 @@ document.addEventListener("DOMContentLoaded", () => {
     signupButton.addEventListener("click", function(e) {
     signupForm.style.display = "block"
     hideButtons()
+    newUser()
     })
   }
    
     function newUser() {
-        signupForm.addEventListener("submit", function(event) {
-            event.preventDefault()
-        let name = document.getElementById("name").value
-        let password = document.getElementById("password").value
-        fetch()
+        signupForm.addEventListener("submit", event => {
+            
+        let name = document.getElementById("newname").value
+        let password = document.getElementById("newpassword").value
+        fetch("http://localhost:3000/users", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Accept": "application/json"
+            },
+             body:JSON.stringify({"username": name}, {"password": password})
+             
+        })
     })
 }
 
@@ -64,11 +73,11 @@ document.addEventListener("DOMContentLoaded", () => {
         let password = document.getElementById("password").value
         fetch(`http://localhost:3000/users/${name}/${password}`)
         .then(resp => resp.json())
-        .then(json => createUser(json))
+        .then(json => createUserInstance(json))
     })
 }
 
-    function createUser(info) {
+    function createUserInstance(info) {
         hideForms()
         let user = new User(info)
         info.forEach(score => {

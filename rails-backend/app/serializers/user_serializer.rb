@@ -5,9 +5,7 @@ class UserSerializer
   @user = user
  end
 
- 
-
-  def serialized_scores 
+def serialized_scores 
     
       @scores = @user.scores
       @scores.to_json(:include => {:user => {:only => [:username]},
