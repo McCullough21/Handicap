@@ -74,33 +74,34 @@ document.addEventListener("DOMContentLoaded", () => {
         let password = document.getElementById("password").value
         fetch(`http://localhost:3000/users/${name}/${password}`)
         .then(resp => resp.json())
-        .then(json => createUserInstance(json))
+        .then(json => profileName(json))
     })
 }
+function profileName(info) {
+  hideForms()
+  let name = info.username
+  head.innerText = `${name}'s ${head.innerText}`
+  fetchScores(info.id)
+}
 
-    function createUserInstance(info) {
-        hideForms()
+function fetchScores(id) {
+       
+  fetch(`http://localhost:3000/users/${id}`)
+    .then(resp => resp.json())
+    .then(json => createUserInstance(json))
+}
+    function createUserInstance(info) {     
         let user = new User(info)
         info.forEach(score => {
             user.scores.unshift(score)
         })
         populateScores(user.allScores)
-        showHandicap(user)
-        fetchName(user._id)
+        showHandicap(user)   
     }
 
-    function fetchName(id) {
-       
-      fetch(`http://localhost:3000/users/${id}`)
-        .then(resp => resp.json())
-        .then(json => profileName(json))
-    }
+   
 
-    function profileName(info) {
-      let name = info.username
-      head.innerText = `${name}'s ${head.innerText}`
-      
-    }
+    
 
     function populateScores(scores) {
         showLabels()

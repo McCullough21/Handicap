@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
     def index
         @user = User.find_by(id: params[:id])
-        render json: UserSerializer.new(@user).serialized_user
+        render json: UserSerializer.new(@user).serialized_scores
     end
     def create
         @user = User.create(username: params[:username], password: params[:password])
@@ -11,7 +11,7 @@ class UsersController < ApplicationController
         
         @user = User.find_by(username: params[:username])
         if @user && @user.authenticate(params[:password])
-            render json: UserSerializer.new(@user).serialized_scores
+            render json: UserSerializer.new(@user).serialized_user
         end
 
     end
