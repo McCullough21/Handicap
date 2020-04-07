@@ -11,6 +11,7 @@ const loginButton = document.getElementById("loginbutton")
 const signupButton = document.getElementById("signupbutton")
 const scoreTable = document.getElementById("scores")
 const handicapDisplay = document.getElementById("handicap")
+const head = document.getElementById("head")
 
 document.addEventListener("DOMContentLoaded", () => {
     hideForms()
@@ -85,7 +86,22 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         populateScores(user.allScores)
         showHandicap(user)
+        fetchName(user._id)
     }
+
+    function fetchName(id) {
+       
+      fetch(`http://localhost:3000/users/${id}`)
+        .then(resp => resp.json())
+        .then(json => profileName(json))
+    }
+
+    function profileName(info) {
+      let name = info.username
+      head.innerText = `${name}'s ${head.innerText}`
+      
+    }
+
     function populateScores(scores) {
         showLabels()
         let x = scores.slice(0, 5)
@@ -103,6 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
 class User {
     constructor(info) {
         this._name = info[0].user.username
+        this._id = info[0].user.id
         this.scores = []
     }
     get allScores() {
