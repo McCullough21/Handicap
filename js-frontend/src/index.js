@@ -99,7 +99,9 @@ function fetchScores(id) {
         showHandicap(user)   
     }
 
-   
+  //  add button above maybe, for cfreating new score
+  // fetch course, use id in collection select. new score post fetch total, user_id, course_id,
+  // reload scores
 
     
 

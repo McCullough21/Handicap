@@ -1,4 +1,4 @@
 class CourseSerializer
   include FastJsonapi::ObjectSerializer
-  attributes 
+  attributes :name, :id
 end
