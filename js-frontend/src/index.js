@@ -12,11 +12,13 @@ const signupButton = document.getElementById("signupbutton")
 const scoreTable = document.getElementById("scores")
 const handicapDisplay = document.getElementById("handicap")
 const head = document.getElementById("head")
+const scoreForm = document.getElementById("newScore")
 
 document.addEventListener("DOMContentLoaded", () => {
     hideForms()
     formDisplay()
     hideLabels()
+    fetchCourses()
   });
 
   function hideLabels() {
@@ -31,6 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function hideForms() {
     loginForm.style.display = "none";
     signupForm.style.display = "none";
+    // scoreForm.style.display = "none"
   }
   function hideButtons() {
     loginButton.style.display = "none"
@@ -102,7 +105,18 @@ function fetchScores(id) {
     function fetchCourses() {
       fetch("http://localhost:3000/courses")
       .then(resp => resp.json())
-      .then(json => newScoreForm())
+      .then(json => newScoreForm(json))
+    }
+
+    function newScoreForm(info) {
+      let courseSelect = document.getElementById("courses")
+      info.data.forEach(course => {
+        let option = document.createElement("OPTION")
+        option.setAttribute("value", `${course.attributes.id}`)
+        option.innerText = `${course.attributes.name}`
+        courseSelect.appendChild(option)
+
+      })
     }
   //  make seperate button for each course?
 
