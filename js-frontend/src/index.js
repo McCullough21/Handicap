@@ -9,6 +9,7 @@ const loginForm = document.getElementById("login")
 const signupForm = document.getElementById("signup")
 const loginButton = document.getElementById("loginbutton")
 const signupButton = document.getElementById("signupbutton")
+const newScoreButton = document.getElementById("new")
 const scoreTable = document.getElementById("scores")
 const handicapDisplay = document.getElementById("handicap")
 const head = document.getElementById("head")
@@ -24,20 +25,24 @@ document.addEventListener("DOMContentLoaded", () => {
   function hideLabels() {
     handicap.style.display = "none";
     scoreTable.style.display = "none";
+    newScoreButton.style.display = "none"
+
   }
 
   function showLabels() {
     handicap.style.display = "block";
     scoreTable.style.display = "block"
+    
   }
   function hideForms() {
     loginForm.style.display = "none";
     signupForm.style.display = "none";
-    // scoreForm.style.display = "none"
+    scoreForm.style.display = "none"
   }
   function hideButtons() {
     loginButton.style.display = "none"
     signupButton.style.display = "none"
+    
   }
 
   function formDisplay() {
@@ -85,10 +90,11 @@ function profileName(info) {
   let name = info.username
   head.innerText = `${name}'s ${head.innerText}`
   fetchScores(info.id)
+  
 }
 
 function fetchScores(id) {
-       
+  
   fetch(`http://localhost:3000/users/${id}`)
     .then(resp => resp.json())
     .then(json => createUserInstance(json))
@@ -103,12 +109,17 @@ function fetchScores(id) {
     }
 
     function fetchCourses() {
+      newScoreButton.addEventListener("click", function() {
+        scoreForm.style.display = "block"
+        
       fetch("http://localhost:3000/courses")
       .then(resp => resp.json())
       .then(json => newScoreForm(json))
+    })
     }
 
     function newScoreForm(info) {
+      fetchCourses()
       let courseSelect = document.getElementById("courses")
       info.data.forEach(course => {
         let option = document.createElement("OPTION")
@@ -135,6 +146,7 @@ function fetchScores(id) {
         })
     }
     function showHandicap(user) {
+        newScoreButton.style.display = "block"
         handicapDisplay.innerText += `${user._name}'s Handicap:  ${user.handicap}`
     }
     
