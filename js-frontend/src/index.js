@@ -69,8 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
               "Content-Type": "application/json",
               "Accept": "application/json"
             },
-             body:JSON.stringify({"username": name, "password": password})
-             
+             body:JSON.stringify({"username": name, "password": password})  
         })
     })
 }
@@ -105,7 +104,10 @@ function fetchScores(id) {
             user.scores.unshift(score)
         })
         populateScores(user.allScores)
-        showHandicap(user)   
+        showHandicap(user) 
+        let currentUser = document.getElementById("user")
+        currentUser.setAttribute("value", `${user._id}`)
+
     }
 
     function fetchCourses() {
@@ -132,19 +134,24 @@ function fetchScores(id) {
 
      function postScore() {
        scoreForm.addEventListener("submit", event => {
-         
+         event.preventDefault()
          let total = document.getElementById("score").value
-         console.log(document.getElementById("courses").value)
-         fetch("http://localhost:3000/scores/create", {
+         let course = document.getElementById("courses").value
+         let user = document.getElementById("user").value
+         fetch("http://localhost:3000/scores", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
               "Accept": "application/json"
             },
-             body:JSON.stringify({"total": total, "course_id": course})
+             body:JSON.stringify({"total": total, "course_id": course, "user_id": user})
         })
        })
+       fetchScores(user)
      }
+
+    //  need to capture user_id
+
   //  make seperate button for each course?
 
   // fetch course, use id in collection select. new score post fetch total, user_id, course_id,
