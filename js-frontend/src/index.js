@@ -120,15 +120,31 @@ function fetchScores(id) {
 
     function newScoreForm(info) {
       fetchCourses()
+      postScore()
       let courseSelect = document.getElementById("courses")
       info.data.forEach(course => {
         let option = document.createElement("OPTION")
         option.setAttribute("value", `${course.attributes.id}`)
         option.innerText = `${course.attributes.name}`
         courseSelect.appendChild(option)
-
       })
     }
+
+     function postScore() {
+       scoreForm.addEventListener("submit", event => {
+         
+         let total = document.getElementById("score").value
+         console.log(document.getElementById("courses").value)
+         fetch("http://localhost:3000/scores/create", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Accept": "application/json"
+            },
+             body:JSON.stringify({"total": total, "course_id": course})
+        })
+       })
+     }
   //  make seperate button for each course?
 
   // fetch course, use id in collection select. new score post fetch total, user_id, course_id,
