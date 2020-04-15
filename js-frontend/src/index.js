@@ -92,23 +92,7 @@ function profileName(info) {
   
 }
 
-function fetchScores(id) {
-  
-  fetch(`http://localhost:3000/users/${id}`)
-    .then(resp => resp.json())
-    .then(json => createUserInstance(json))
-}
-    function createUserInstance(info) {     
-        let user = new User(info)
-        info.forEach(score => {
-            user.scores.unshift(score)
-        })
-        populateScores(user.allScores)
-        showHandicap(user) 
-        let currentUser = document.getElementById("user")
-        currentUser.setAttribute("value", `${user._id}`)
 
-    }
 
     function fetchCourses() {
       newScoreButton.addEventListener("click", function() {
@@ -133,8 +117,10 @@ function fetchScores(id) {
     }
 
      function postScore() {
+      
        scoreForm.addEventListener("submit", event => {
          event.preventDefault()
+        document.getElementById("scoreList").innerHTML = ""
          let total = document.getElementById("score").value
          let course = document.getElementById("courses").value
          let user = document.getElementById("user").value
@@ -145,10 +131,29 @@ function fetchScores(id) {
               "Accept": "application/json"
             },
              body:JSON.stringify({"total": total, "course_id": course, "user_id": user})
-        })
-       })
-       fetchScores(user)
-     }
+        })  
+        
+        fetchScores(user)
+     })
+    }
+
+    function fetchScores(id) {
+      
+      fetch(`http://localhost:3000/users/${id}`)
+        .then(resp => resp.json())
+        .then(json => createUserInstance(json))
+    }
+        function createUserInstance(info) {     
+            let user = new User(info)
+            info.forEach(score => {
+                user.scores.unshift(score)
+            })
+            populateScores(user.allScores)
+            showHandicap(user) 
+            let currentUser = document.getElementById("user")
+            currentUser.setAttribute("value", `${user._id}`)
+    
+        }
 
     //  need to capture user_id
 
@@ -160,12 +165,17 @@ function fetchScores(id) {
     
 
     function populateScores(scores) {
-        showLabels()
+      showLabels()
+        let list = document.createElement("h3")
+        list.setAttribute("id", "scoreList")
+        scoreTable.appendChild(list)
+        
         let x = scores.slice(0, 5)
         x.forEach(score => {
             let postLine = document.createElement("h4")
             postLine.innerText = `Score: ${score.total}  Course: ${score.course.name}`
-            scoreTable.appendChild(postLine)
+            
+            list.appendChild(postLine)
         })
     }
     function showHandicap(user) {
