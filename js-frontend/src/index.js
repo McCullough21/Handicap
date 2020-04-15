@@ -120,7 +120,7 @@ function profileName(info) {
       
        scoreForm.addEventListener("submit", event => {
          event.preventDefault()
-        document.getElementById("scoreList").innerHTML = ""
+        document.getElementById("scoreList").remove()
          let total = document.getElementById("score").value
          let course = document.getElementById("courses").value
          let user = document.getElementById("user").value
@@ -132,7 +132,7 @@ function profileName(info) {
             },
              body:JSON.stringify({"total": total, "course_id": course, "user_id": user})
         })  
-        
+       scoreForm.reset() 
         fetchScores(user)
      })
     }
@@ -180,7 +180,7 @@ function profileName(info) {
     }
     function showHandicap(user) {
         newScoreButton.style.display = "block"
-        handicapDisplay.innerText += `${user._name}'s Handicap:  ${user.handicap}`
+        handicapDisplay.innerText = `${user._name}'s Handicap:  ${user.handicap}`
     }
     
 
