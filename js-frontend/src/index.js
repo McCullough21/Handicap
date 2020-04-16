@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
     formDisplay()
     hideLabels()
     fetchCourses()
+    
   });
 
   function hideLabels() {
@@ -86,18 +87,23 @@ document.addEventListener("DOMContentLoaded", () => {
 }
 function profileName(info) {
   hideForms()
+  showLabels()
+  newScoreButton.style.display = "block"
   let name = info.username
   head.innerText = `${name}'s ${head.innerText}`
-  fetchScores(info.id)
+  let currentUser = document.getElementById("user")
+  currentUser.setAttribute("value", `${info.id}`)
   
 }
 
 
 
     function fetchCourses() {
+      
+      
       newScoreButton.addEventListener("click", function() {
-        scoreForm.style.display = "block"
         
+        scoreForm.style.display = "block"
       fetch("http://localhost:3000/courses")
       .then(resp => resp.json())
       .then(json => newScoreForm(json))
@@ -105,8 +111,9 @@ function profileName(info) {
     }
 
     function newScoreForm(info) {
-      fetchCourses()
+      
       postScore()
+      
       let courseSelect = document.getElementById("courses")
       info.data.forEach(course => {
         let option = document.createElement("OPTION")
@@ -120,7 +127,9 @@ function profileName(info) {
       
        scoreForm.addEventListener("submit", event => {
          event.preventDefault()
-        document.getElementById("scoreList").remove()
+        if (document.getElementById("scoreList")) {
+          document.getElementById("scoreList").remove()
+        }
          let total = document.getElementById("score").value
          let course = document.getElementById("courses").value
          let user = document.getElementById("user").value
@@ -133,7 +142,7 @@ function profileName(info) {
              body:JSON.stringify({"total": total, "course_id": course, "user_id": user})
         })  
        scoreForm.reset() 
-        fetchScores(user)
+       fetchScores(user)
      })
     }
 
@@ -150,8 +159,8 @@ function profileName(info) {
             })
             populateScores(user.allScores)
             showHandicap(user) 
-            let currentUser = document.getElementById("user")
-            currentUser.setAttribute("value", `${user._id}`)
+            // let currentUser = document.getElementById("user")
+            // currentUser.setAttribute("value", `${user._id}`)
     
         }
 
@@ -165,7 +174,7 @@ function profileName(info) {
     
 
     function populateScores(scores) {
-      showLabels()
+     
         let list = document.createElement("h3")
         list.setAttribute("id", "scoreList")
         scoreTable.appendChild(list)
@@ -179,7 +188,7 @@ function profileName(info) {
         })
     }
     function showHandicap(user) {
-        newScoreButton.style.display = "block"
+        // newScoreButton.style.display = "block"
         handicapDisplay.innerText = `${user._name}'s Handicap:  ${user.handicap}`
     }
     
