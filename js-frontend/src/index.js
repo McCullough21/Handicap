@@ -138,22 +138,31 @@ function profileName(info) {
       
        scoreForm.addEventListener("submit", event => {
          event.preventDefault()
-        console.log(document.getElementById("courses").name)
+        
          let total = document.getElementById("score").value
-         let course = document.getElementById("courses").value
+         let courseId = document.getElementById("courses").value
          let user = document.getElementById("user").value
+         let courseName = document.getElementById("courses")[courseId - 1].text
          fetch("http://localhost:3000/scores", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
               "Accept": "application/json"
             },
-             body:JSON.stringify({"total": total, "course_id": course, "user_id": user})
+             body:JSON.stringify({"total": total, "course_id": courseId, "user_id": user})
         })  
        scoreForm.reset() 
-       updateScoreList()
+       updateScoreList(total, courseName)
      })
     }
+
+      function updateScoreList(score, course) {
+        let list = document.getElementById("scoreList")
+        list.lastElementChild.remove()
+        let newScore = document.createElement("h4")
+            newScore.innerText = `Score: ${score}  Course: ${course}`
+            list.insertBefore(newScore, list.childNodes[0])
+      }
 
     // should new score delete last score on page, 
     // then create html seperately from fetching all scores? would still populate and post fetch new score
