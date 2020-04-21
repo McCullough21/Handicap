@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
     loginButton.addEventListener("click", function(e) {
     loginForm.style.display = "block"
     hideButtons()
-    fetchUser()
+    login()
     })
     signupButton.addEventListener("click", function(e) {
     signupForm.style.display = "block"
@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
    
     function newUser() {
         signupForm.addEventListener("submit", event => {
-            
+            event.preventDefault()
         let name = document.getElementById("newname").value
         let password = document.getElementById("newpassword").value
         fetch("http://localhost:3000/users", {
@@ -72,19 +72,25 @@ document.addEventListener("DOMContentLoaded", () => {
             },
              body:JSON.stringify({"username": name, "password": password})  
         })
+        fetchUser(name, password)
     })
 }
-
-    function fetchUser() {
+//  make fetch user accepting of name and password
+    function login() {
       loginForm.addEventListener("submit", function(event) {
       event.preventDefault()
         let name = document.getElementById("name").value
         let password = document.getElementById("password").value
+        fetchUser(name, password)
+      })
+    }
+
+    function fetchUser(name, password) {
         fetch(`http://localhost:3000/users/${name}/${password}`)
         .then(resp => resp.json())
         .then(json => profileName(json))
-    })
-}
+    }
+
 function profileName(info) {
   hideForms()
   showLabels()
@@ -93,6 +99,7 @@ function profileName(info) {
   head.innerText = `${name}'s ${head.innerText}`
   let currentUser = document.getElementById("user")
   currentUser.setAttribute("value", `${info.id}`)
+  fetchScores(info.id)
   
 }
 
@@ -101,13 +108,16 @@ function profileName(info) {
     function fetchCourses() {
       
       
-      newScoreButton.addEventListener("click", function() {
-        
+      newScoreButton.addEventListener("click", event => {
+        if (scoreForm.style.display == "block") {
+          event.stopPropagation()
+        } else {
         scoreForm.style.display = "block"
       fetch("http://localhost:3000/courses")
       .then(resp => resp.json())
       .then(json => newScoreForm(json))
-    })
+      }
+     })
     }
 
     function newScoreForm(info) {
@@ -118,6 +128,7 @@ function profileName(info) {
       info.data.forEach(course => {
         let option = document.createElement("OPTION")
         option.setAttribute("value", `${course.attributes.id}`)
+        option.setAttribute("name", `${course.attributes.name}`)
         option.innerText = `${course.attributes.name}`
         courseSelect.appendChild(option)
       })
@@ -127,9 +138,7 @@ function profileName(info) {
       
        scoreForm.addEventListener("submit", event => {
          event.preventDefault()
-        if (document.getElementById("scoreList")) {
-          document.getElementById("scoreList").remove()
-        }
+        console.log(document.getElementById("courses").name)
          let total = document.getElementById("score").value
          let course = document.getElementById("courses").value
          let user = document.getElementById("user").value
@@ -142,9 +151,12 @@ function profileName(info) {
              body:JSON.stringify({"total": total, "course_id": course, "user_id": user})
         })  
        scoreForm.reset() 
-       fetchScores(user)
+       updateScoreList()
      })
     }
+
+    // should new score delete last score on page, 
+    // then create html seperately from fetching all scores? would still populate and post fetch new score
 
     function fetchScores(id) {
       
