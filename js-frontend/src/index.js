@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
     newUser()
     })
   }
-   
+  
     function newUser() {
         signupForm.addEventListener("submit", event => {
             event.preventDefault()
@@ -72,10 +72,20 @@ document.addEventListener("DOMContentLoaded", () => {
             },
              body:JSON.stringify({"username": name, "password": password})  
         })
-        fetchUser(name, password)
+        go(name, password)
     })
 }
-//  make fetch user accepting of name and password
+
+function go(name, password) {
+  fetchUser(name, password)
+}
+
+function fetchUser(name, password) {
+  fetch(`http://localhost:3000/users/${name}/${password}`)
+  .then(resp => resp.json())
+  .then(json => profileName(json))
+}
+//  singup is firing fetchuser before user is created
     function login() {
       loginForm.addEventListener("submit", function(event) {
       event.preventDefault()
@@ -85,11 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
       })
     }
 
-    function fetchUser(name, password) {
-        fetch(`http://localhost:3000/users/${name}/${password}`)
-        .then(resp => resp.json())
-        .then(json => profileName(json))
-    }
+    
 
 function profileName(info) {
   hideForms()
@@ -100,7 +106,6 @@ function profileName(info) {
   let currentUser = document.getElementById("user")
   currentUser.setAttribute("value", `${info.id}`)
   fetchScores(info.id)
-  
 }
 
 
@@ -158,11 +163,14 @@ function profileName(info) {
 
       function updateScoreList(score, course) {
         let list = document.getElementById("scoreList")
-        list.lastElementChild.remove()
+        if (list.childNodes.length > 4) {
+          list.lastElementChild.remove()
+        } 
         let newScore = document.createElement("h4")
             newScore.innerText = `Score: ${score}  Course: ${course}`
             list.insertBefore(newScore, list.childNodes[0])
-      }
+        }
+    
 
     // should new score delete last score on page, 
     // then create html seperately from fetching all scores? would still populate and post fetch new score
