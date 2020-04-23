@@ -16,10 +16,10 @@ const head = document.getElementById("head")
 const scoreForm = document.getElementById("newScore")
 
 document.addEventListener("DOMContentLoaded", () => {
-    hideForms()
+    hideForms() 
     formDisplay()
     hideLabels()
-    fetchCourses()
+    
     
   });
 
@@ -60,11 +60,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   
     function newUser() {
-        signupForm.addEventListener("submit", event => {
+        signupForm.addEventListener("submit", async event => {
             event.preventDefault()
         let name = document.getElementById("newname").value
         let password = document.getElementById("newpassword").value
-        fetch("http://localhost:3000/users", {
+          await fetch("http://localhost:3000/users", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -72,32 +72,43 @@ document.addEventListener("DOMContentLoaded", () => {
             },
              body:JSON.stringify({"username": name, "password": password})  
         })
-        go(name, password)
+        signupFetchUser(name, password)
     })
 }
 
-function go(name, password) {
-  fetchUser(name, password)
-}
+// function go(name, password) {
+//   fetchUser(name, password)
+// }
 
-function fetchUser(name, password) {
+
+function signupFetchUser(name, password) {
   fetch(`http://localhost:3000/users/${name}/${password}`)
   .then(resp => resp.json())
-  .then(json => profileName(json))
+  .then(json => singupName(json))
+  .catch(error => console.log(error))
 }
+
+function loginFetchUser(name, password) {
+  fetch(`http://localhost:3000/users/${name}/${password}`)
+  .then(resp => resp.json())
+  .then(json => loginName(json))
+  .catch(error => console.log(error))
+}
+
 //  singup is firing fetchuser before user is created
     function login() {
       loginForm.addEventListener("submit", function(event) {
       event.preventDefault()
         let name = document.getElementById("name").value
         let password = document.getElementById("password").value
-        fetchUser(name, password)
+        loginFetchUser(name, password)
       })
     }
 
-    
+    // have to seperate profile name login and signup
+    // need the ID from fetch user, but fetching scores for user instance breaks
 
-function profileName(info) {
+function loginName(info) {
   hideForms()
   showLabels()
   newScoreButton.style.display = "block"
@@ -105,9 +116,26 @@ function profileName(info) {
   head.innerText = `${name}'s ${head.innerText}`
   let currentUser = document.getElementById("user")
   currentUser.setAttribute("value", `${info.id}`)
+  let list = document.createElement("h3")
+  list.setAttribute("id", "scoreList")
+  scoreTable.appendChild(list)
   fetchScores(info.id)
+  fetchCourses()
 }
 
+function singupName(info) {
+  hideForms()
+  showLabels()
+  newScoreButton.style.display = "block"
+  let name = info.username
+  head.innerText = `${name}'s ${head.innerText}`
+  let currentUser = document.getElementById("user")
+  currentUser.setAttribute("value", `${info.id}`)
+  let list = document.createElement("h3")
+  list.setAttribute("id", "scoreList")
+  scoreTable.appendChild(list)
+  fetchCourses()
+}
 
 
     function fetchCourses() {
@@ -139,37 +167,47 @@ function profileName(info) {
       })
     }
 
-     function postScore() {
+    function postScore() {
       
-       scoreForm.addEventListener("submit", event => {
+       scoreForm.addEventListener("submit", async event => {
          event.preventDefault()
         
          let total = document.getElementById("score").value
          let courseId = document.getElementById("courses").value
          let user = document.getElementById("user").value
          let courseName = document.getElementById("courses")[courseId - 1].text
-         fetch("http://localhost:3000/scores", {
+
+            await fetch("http://localhost:3000/scores", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
               "Accept": "application/json"
             },
              body:JSON.stringify({"total": total, "course_id": courseId, "user_id": user})
-        })  
+        }) 
        scoreForm.reset() 
-       updateScoreList(total, courseName)
+       let list = document.getElementById("scoreList")
+        if (list.childNodes) {
+          list.innerHTML = ""
+        }
+       fetchScores(user)
      })
     }
 
-      function updateScoreList(score, course) {
-        let list = document.getElementById("scoreList")
-        if (list.childNodes.length > 4) {
-          list.lastElementChild.remove()
-        } 
-        let newScore = document.createElement("h4")
-            newScore.innerText = `Score: ${score}  Course: ${course}`
-            list.insertBefore(newScore, list.childNodes[0])
-        }
+      // function updateScoreList(score, course, user_id) {
+      //   let list = document.getElementById("scoreList")
+      //   if (list.childNodes && list.childNodes.length > 4) {
+      //     list.lastElementChild.remove()
+      //   } 
+      //   let newScore = document.createElement("h4")
+      //       newScore.innerText = `Score: ${score}  Course: ${course}`
+      //       list.insertBefore(newScore, list.childNodes[0])
+      //       sco(user_id)
+      //   }
+
+      //   function sco(id) {
+      //     fetchScores(id)
+      //   }
     
 
     // should new score delete last score on page, 
@@ -203,11 +241,9 @@ function profileName(info) {
     
 
     function populateScores(scores) {
-     
-        let list = document.createElement("h3")
-        list.setAttribute("id", "scoreList")
-        scoreTable.appendChild(list)
-        
+      
+
+        let list = document.getElementById("scoreList")
         let x = scores.slice(0, 5)
         x.forEach(score => {
             let postLine = document.createElement("h4")
@@ -221,6 +257,7 @@ function profileName(info) {
         handicapDisplay.innerText = `${user._name}'s Handicap:  ${user.handicap}`
     }
     
+
 
 class User {
     constructor(info) {
